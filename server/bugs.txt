@@ -1,0 +1,3 @@
+user can play game with self.
+
+Make sure that connecting socket doesn't get added twice.
