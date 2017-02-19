@@ -3,9 +3,8 @@ var path = require('path');
 var app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
-var chalk = require('chalk');
 
-var appLogger = require('./server/logger')(true);
+var appLogger = require('./common/logger')(true);
 
 var appSocket = require('./server/socket').initSocket(io);
 //var clean = require('./server/cleanUp');

@@ -1,5 +1,5 @@
 const uuidV4 = require('uuid/v4');
-var al = require('../../logger')();
+var al = require('../../../common/logger')();
 
 al.moduleLoaded();
 

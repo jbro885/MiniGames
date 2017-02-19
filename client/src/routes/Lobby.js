@@ -6,6 +6,8 @@ import Public from './PublicLobby';
 import Create from './CreateLobby';
 import { connect } from 'react-redux';
 
+import {hashHistory} from 'react-router';
+
 
 
 import QuickJoin from '../components/QuickJoin';
@@ -20,12 +22,17 @@ let  lobby = ({game,waiting,quickJoin,connectSocket,setWindow,cancelQuickJoin}) 
     quickJoin(game);
     setWindow(true);
   }
+  function singlePlayer(){
+    hashHistory.push(`game/${game}/Single`);
+  }
 
 
   const lobby = (
     <div>
     <h3>{game}</h3>
     <Button bsStyle="success" onClick={e =>handleClick()}>Quick Join</Button>
+    <span> </span>
+    <Button bsStyle="success" onClick={e =>singlePlayer()}>Single Player</Button>
     <div><br/></div>
     <Tabs defaultActiveKey={1} id="loginTabs">
       <Tab eventKey={1} title="Public">

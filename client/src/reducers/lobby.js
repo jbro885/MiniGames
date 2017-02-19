@@ -20,6 +20,7 @@ const lobby = (state = defaultLobbyState, action)=>{
     case 'QUICK_JOIN':{
       if(typeof action.payload !== 'string')
         throw new Error('Must provide lobby name!');
+      //console.log('quick join');
       store.getState().connection.socket.emit('quick-join',action.payload);
       return {...state,game:action.payload};
     }

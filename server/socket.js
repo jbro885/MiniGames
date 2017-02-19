@@ -1,5 +1,5 @@
 
-var al = require('./logger')();
+var al = require('../common/logger')();
 var lobby = require('./sockets/lobby');
 
 var app  = {};

@@ -1,8 +1,8 @@
 
 // TODO this doest really do anything right now...
 
-var chalk = require('chalk');
-var appLogger = require('./logger')();
+
+var appLogger = require('../common/logger')();
 
 var app  = function(){
 

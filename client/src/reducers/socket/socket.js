@@ -4,6 +4,7 @@ import io from 'socket.io-client';
 import socketClicker from './socketClicker';
 import socketLobby from './socketLobby';
 import socketChat from './socketChat';
+//import socketMatter from './socketMatter';
 
 let defaultAddress = location.origin;
 //TODO make this more better
@@ -27,6 +28,7 @@ function initSocket(state, address = defaultAddress){
   socketClicker(socket);
   socketLobby(socket);
   socketChat(socket);
+//socketMatter(socket);
 
   //console.log(socket);
 

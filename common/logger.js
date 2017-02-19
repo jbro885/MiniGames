@@ -17,7 +17,9 @@ AppLogger.prototype.log = function(msg,obj,logLevel = 'INFO'){
 
   var out = chalk.white('['+logLevel+']');
   out += AppLogger.prototype.timeStamp();
-  out += AppLogger.prototype.stackString();
+  if(! browser){
+    out += AppLogger.prototype.stackString();
+  }
 
   if(typeof msg === 'object')
     msg = JSON.stringify(msg);
@@ -113,15 +115,24 @@ AppLogger.prototype.getStackInfo = function(){
 
 let appLoggerSingleton;
 let inited = false;
+let browser = false;
 
 const singleton = function(debug){
 
-    if(inited !== true){
-      var mainPath = require.main.filename;
-      var int = mainPath.lastIndexOf('/');
-      if(int === -1)
-      int = mainPath.lastIndexOf('\\');
-      mainPath = mainPath.substr(0,int+1);
+    if(inited !== true){      
+      var mainPath = "";
+      if(require.main.filename === undefined){
+        //console.log(require.main.filename);
+        browser = true;
+      }else{
+        mainPath = require.main.filename;
+        var int = mainPath.lastIndexOf('/');
+        if(int === -1)
+        int = mainPath.lastIndexOf('\\');
+        mainPath = mainPath.substr(0,int+1);
+      }
+
+
       inited = true;
       appLoggerSingleton = new AppLogger(debug,mainPath);
     }

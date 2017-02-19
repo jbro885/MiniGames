@@ -5,13 +5,17 @@ import { connect } from 'react-redux';
 
 import Clicker from '../games/Clicker';
 import Space from '../games/Space';
+import Matter from '../games/Matter';
 
-function getGame(game){
+function getGame(game,singlePlayer){
+
   switch (game) {
     case 'Clicker':
       return <Clicker></Clicker>;
       case 'Space':
       return <Space></Space>
+    case 'Matter':
+      return <Matter singlePlayer={singlePlayer}></Matter>
     default:
       return (<div>Invalid Game!</div>);
   }
@@ -21,7 +25,7 @@ class game extends React.Component{
 
   constructor(props){
     super(props);
-    console.log(props);
+    //console.log(props);
     this.setGame = props.setGame;
   }
 
@@ -30,16 +34,16 @@ class game extends React.Component{
   }
 
   render(){
-    const {game} = this.props;
+    const {game,singlePlayer} = this.props;
     return(
-      <div className="container">
-        {getGame(game)}
-      </div>
+      getGame(game,singlePlayer)
       )
   }
 
 }
 
+// <div className="container">
+// </div>
 
 
 function mapDispatchToProps(dispatch){
@@ -52,7 +56,8 @@ function mapDispatchToProps(dispatch){
 
 function mapStateToProps (state,ownProps) {
   return {
-    game:ownProps.params.game
+    game:ownProps.params.game,
+    singlePlayer: ownProps.params.singlePlayer
   }
 }
 
