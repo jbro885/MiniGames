@@ -12,6 +12,7 @@ var appSocket = require('./server/socket').initSocket(io);
 appLogger.moduleLoaded();
 app.use(express.static(__dirname+'/client/build'));
 
+
 //
 // app.get('/*',function(req,res){
 //   res.sendFile(path.join(__dirname, 'client/public/index.html'));
