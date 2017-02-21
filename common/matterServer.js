@@ -114,6 +114,7 @@ var matterServer = function(){
   // Main game Incrementer;
 //  Engine.run()
 
+  //TODO change to work on server
   (function run(){
     window.requestAnimationFrame(run);
     //console.log('help');
