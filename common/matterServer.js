@@ -17,10 +17,11 @@ var matterServer = function(){
   let callbackContext = undefined;
   let engine = Engine.create();
   engine.world.gravity.y = 0.0;
+  let players = new Map();
   createCicrle(550,475,450,{isSensor: true,isStatic:true});
-  let player = createPlayer(100, 200, 16,  { isStatic: false});
-  let player2 = createPlayer(564, 500, 16,  { isStatic: false});
-  player.input = {};
+  //let player = createPlayer(550, 475, 16,  { isStatic: false});
+
+
   //Body.setVelocity(player,{x:15,y:0});
   //let rotater = createRect(364, 300, 4*16, 4*16 , { isStatic: true });
   //createRect(300, 600, 16*16, 16*16, { isStatic: true });
@@ -44,24 +45,26 @@ var matterServer = function(){
     },
     sendInput: function(msg,player){
       handleInput(msg,player);
-    }
+    },
+    addPlayer: addPlayer
   }
 
 
   function gameLoop(){
 
+    for(var [id, player] of players){
+      if(player.input.cursor)
+      if(player.input.cursor.isDown){
+        let v = Vector.sub(player.input.cursor,player.position) ;
+        v = Vector.normalise(v);
+        v = Vector.mult(v,.2 / tps );
+        Body.applyForce(player,player.position,v);
+      }
+      clampPlayer(player,10);
+    }
     //  Body.applyForce(player,player.position,{x:-.03/tps,y:-.03/tps});
     //console.log('wowowow');
 
-    if(player.input.cursor)
-    if(player.input.cursor.isDown){
-      let v = Vector.sub(player.input.cursor,player.position) ;
-      v = Vector.normalise(v);
-      v = Vector.mult(v,.3 / tps );
-      Body.applyForce(player,player.position,v);
-
-    }
-    clampPlayer(player,15);
 
   }
 
@@ -73,10 +76,21 @@ var matterServer = function(){
     return circle;
   }
 
+  function addPlayer (id){
+    console.log('add player');
+    let player = createPlayer(550, 475, 32,  { isStatic: false});
+    player.rusd.id = id;
+    players.set(id,player);
+  }
+  function removePlayer(id){
+    let player = players.get(id)
+
+  }
+
   function createPlayer(x,y,r,args){
     let player = createCicrle(x,y,r,args);
     player.rusd.type = 'player';
-    console.log(player);
+    player.input = {};
     return player;
   }
 
@@ -95,16 +109,20 @@ var matterServer = function(){
       return;
     }
 
+    let player = players.get(playerId);
+    if(player){
+      //TODO figure out why the spread operator wont work
+      player.input = Object.assign({},player.input, {cursor:msg.cursor});
+      if(msg.space){
+        //  console.log(player);
+        player.position.x = 350;
+        player.position.y = 350;
+        Body.setVelocity(player,{x:0,y:0});
+        Body.applyForce(player,player.position,{x:0,y:0.0});
+      }
 
-    //TODO figure out why the spread operator wont work
-    player.input = Object.assign({},player.input, {cursor:msg.cursor});
-    if(msg.space){
-    //  console.log(player);
-      player.position.x = 350;
-      player.position.y = 350;
-      Body.setVelocity(player,{x:0,y:0});
-      Body.applyForce(player,player.position,{x:0,y:0.0});
     }
+
 
 
   }

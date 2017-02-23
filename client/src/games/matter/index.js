@@ -41,6 +41,7 @@ function init(singlePlayer = false){
 
   if(singlePlayer){
     this.server = server();
+    this.server.addPlayer(1);
     this.server.setCallBack(this.handleTick);
     this.sendInput = sendInputSingle.bind(this);
   }
